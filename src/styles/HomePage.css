@@ -1,0 +1,68 @@
+/* Apply styles to the sidebar */
+.sidebar {
+    background-color: #f4f4f4;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Style the category checkboxes */
+  .sidebar .ant-checkbox-wrapper {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  
+  /* Style the price radio buttons */
+  .sidebar .ant-radio-group {
+    display: block;
+    margin-top: 10px;
+  }
+  
+  /* Style the "RESET FILTERS" button */
+  .sidebar .btn-danger {
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  /* Apply styles to the product list */
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  /* Style the product cards */
+  .product-list .card {
+    width: 300px;
+    margin: 20px;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .product-list .card:hover {
+    transform: scale(1.05);
+  }
+  
+  /* Add styles for the product card content */
+  .product-list .card-body {
+    padding: 15px;
+  }
+  
+  /* Style the "More Details" and "ADD TO CART" buttons */
+  .product-list .btn-primary,
+  .product-list .btn-secondary {
+    width: 100%;
+    margin-top: 10px;
+    font-weight: 600;
+  }
+  
+  /* Style the "Loadmore" button */
+  .product-list .btn-warning {
+    width: 100%;
+    margin-top: 20px;
+    font-weight: 600;
+  }
+  
