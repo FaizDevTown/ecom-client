@@ -6,6 +6,7 @@ import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
+import { FiChevronDown } from "react-icons/fi";
 const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart();
@@ -16,6 +17,7 @@ const HomePage = () => {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(-1);
 
   //get all cat
   const getAllCategory = async () => {
@@ -107,28 +109,54 @@ const HomePage = () => {
     <Layout title={"HomePage"}>
       <div className="container-fluid row mt-3">
         <div className="col-md-2">
-          <h4 className="text-center">Filter By Category</h4>
-          <div className="d-flex flex-column">
-            {categories?.map((c) => (
-              <Checkbox
-                key={c._id}
-                onChange={(e) => handleFilter(e.target.checked, c._id)}
-              >
-                {c.name}
-              </Checkbox>
-            ))}
+          <div>
+            <div
+              role="button"
+              onClick={() => setIsOpen((prev) => (prev === 1 ? -1 : 1))}
+              className="d-flex align-items-center p-2 justify-content-between"
+            >
+              <h6 className="mb-0">Filter By Category</h6>
+              <span>
+                {" "}
+                <FiChevronDown size={24} />{" "}
+              </span>
+            </div>
+            {isOpen === 1 && (
+              <div className="d-flex flex-column">
+                {categories?.map((c) => (
+                  <Checkbox
+                    key={c._id}
+                    onChange={(e) => handleFilter(e.target.checked, c._id)}
+                  >
+                    {c.name}
+                  </Checkbox>
+                ))}
+              </div>
+            )}
           </div>
           {/* price filter */}
-          <h4 className="text-center mt-4">Filter By Price</h4>
-          <div className="d-flex flex-column">
-            <Radio.Group onChange={(e) => setRadio(e.target.value)}>
-              {Prices?.map((p) => (
-                <div key={p._id}>
-                  <Radio value={p.array}>{p.name}</Radio>
-                </div>
-              ))}
-            </Radio.Group>
+          <div
+            role="button"
+            onClick={() => setIsOpen((prev) => (prev === 2 ? -1 : 2))}
+            className="d-flex align-items-center p-2 justify-content-between"
+          >
+            <h6 className="mb-0">Filter By Price</h6>
+            <span>
+              {" "}
+              <FiChevronDown size={24} />{" "}
+            </span>
           </div>
+          {isOpen === 2 && (
+            <div className="d-flex flex-column">
+              <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+                {Prices?.map((p) => (
+                  <div key={p._id}>
+                    <Radio value={p.array}>{p.name}</Radio>
+                  </div>
+                ))}
+              </Radio.Group>
+            </div>
+          )}
           <div className="d-flex flex-column">
             <button
               className="btn btn-danger"

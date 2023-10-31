@@ -7,9 +7,18 @@ const AuthProvider = ({ children }) => {
     user: null,
     token: "",
   });
+ 
 
   //default axios
   axios.defaults.headers.common["Authorization"] = auth?.token;
+
+  // useEffect(()=>{
+  //   if (auth.user?.role === 1) {
+  //  window.location.href = "/dashboard"
+  //  }
+  // },[auth.user?.role])
+  
+
 
   useEffect(() => {
     const data = localStorage.getItem("auth");

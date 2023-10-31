@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -10,8 +10,21 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useAuth();
 
+
   const navigate = useNavigate();
   const location = useLocation();
+  useEffect(()=>{
+    if(auth.token) {
+      if(auth.user?.role===1){
+        navigate("/dashboard/admin")
+      }else{
+        navigate("/")
+      }
+
+   
+  }
+
+  },[auth.token])
 
   // form function
   const handleSubmit = async (e) => {
@@ -29,7 +42,12 @@ const Login = () => {
           token: res.data.token,
         });
         localStorage.setItem("auth", JSON.stringify(res.data));
-        navigate(location.state || "/");
+       
+        if(res.data.user?.role===1){
+          navigate('/dashboard/admin')
+        }else{
+          navigate(location.state || "/");
+        }
       } else {
         toast.error(res.data.message);
       }

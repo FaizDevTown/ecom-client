@@ -21,12 +21,10 @@ const Header = () => {
     toast.success("Logout Successfully");
   };
 
-  const doctorEmoji = "\u{1F468}\u{200D}\u{2695}\u{FE0F}"; // Unicode representation of a doctor emoji
-
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
-        <div className="container-fluid">
+        <div className="container-fluid ">
           <button
             className="navbar-toggler"
             type="button"
@@ -39,43 +37,46 @@ const Header = () => {
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <Link to="/" className="navbar-brand">
-             Shopping
-            </Link>
+            {auth.user?.role === 0 &&<Link to="/" className="navbar-brand">
+              Shopping
+            </Link>}
             {/* ...rest of your code */}
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <SearchInput />
-              <li className="nav-item">
+             {auth.user?.role === 0 && <SearchInput />}
+             {auth.user?.role === 0 && <li className="nav-item">
                 <NavLink to="/" className="nav-link ">
                   Home
                 </NavLink>
-              </li>
-              <li className="nav-item dropdown">
-                <Link
-                  className="nav-link dropdown-toggle"
-                  to={"/categories"}
-                  data-bs-toggle="dropdown"
-                >
-                  Categories
-                </Link>
-                <ul className="dropdown-menu">
-                  <li>
-                    <Link className="dropdown-item" to={"/categories"}>
-                      All Categories
-                    </Link>
-                  </li>
-                  {categories?.map((c) => (
+                
+              </li>}
+              {/* {auth.user?.role === 0 && (
+                <li className="nav-item dropdown">
+                  <Link
+                    className="nav-link dropdown-toggle"
+                    to={"/categories"}
+                    data-bs-toggle="dropdown"
+                  >
+                    Categories
+                  </Link>
+                  <ul className="dropdown-menu">
                     <li>
-                      <Link
-                        className="dropdown-item"
-                        to={`/category/${c.slug}`}
-                      >
-                        {c.name}
+                      <Link className="dropdown-item" to={"/categories"}>
+                        All Categories
                       </Link>
                     </li>
-                  ))}
-                </ul>
-              </li>
+                    {categories?.map((c) => (
+                      <li>
+                        <Link
+                          className="dropdown-item"
+                          to={`/category/${c.slug}`}
+                        >
+                          {c.name}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </li>
+              )} */}
 
               {!auth?.user ? (
                 <>
@@ -126,13 +127,13 @@ const Header = () => {
                   </li>
                 </>
               )}
-              <li className="nav-item">
+             { auth.user?.role === 0 &&<li className="nav-item">
                 <Badge count={cart?.length} showZero>
                   <NavLink to="/cart" className="nav-link">
                     Cart
                   </NavLink>
                 </Badge>
-              </li>
+              </li>}
             </ul>
           </div>
         </div>

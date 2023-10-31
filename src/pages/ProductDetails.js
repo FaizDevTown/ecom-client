@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-
+import { useCart } from "../context/cart";
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
+  const [cart, setCart] = useCart();
 
   // Initial details
   useEffect(() => {
@@ -17,7 +18,9 @@ const ProductDetails = () => {
   // Get product
   const getProduct = async () => {
     try {
-      const { data } = await axios.get(`/api/v1/product/get-product/${params.slug}`);
+      const { data } = await axios.get(
+        `/api/v1/product/get-product/${params.slug}`
+      );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
     } catch (error) {
@@ -28,7 +31,9 @@ const ProductDetails = () => {
   // Get similar products
   const getSimilarProduct = async (pid, cid) => {
     try {
-      const { data } = await axios.get(`/api/v1/product/related-product/${pid}/${cid}`);
+      const { data } = await axios.get(
+        `/api/v1/product/related-product/${pid}/${cid}`
+      );
       setRelatedProducts(data?.products);
     } catch (error) {
       console.log(error);
@@ -49,7 +54,7 @@ const ProductDetails = () => {
 
   const productButtonStyle = {
     margin: "5px",
-  backgroundColor: "#3498db",
+    backgroundColor: "#3498db",
     color: "#fff",
     borderRadius: "5px",
     border: "none",
@@ -81,7 +86,16 @@ const ProductDetails = () => {
             <p>Description: {product.description}</p>
             <h4>Price: ${product.price}</h4>
             <h4>Category: {product?.category?.name}</h4>
-            <button style={productButtonStyle} onClick={() => alert("Added to Cart")}>
+            <button
+              style={productButtonStyle}
+              onClick={() => {
+                setCart((prev) => [...prev, product]);
+                localStorage.setItem(
+                  "cart",
+                  JSON.stringify([...cart, product])
+                );
+              }}
+            >
               ADD TO CART
             </button>
           </div>
@@ -90,7 +104,9 @@ const ProductDetails = () => {
       <hr />
       <div className="container">
         <h2 className="text-center my-4">Similar Products</h2>
-        {relatedProducts.length < 1 && <p className="text-center">No Similar Products found</p>}
+        {relatedProducts.length < 1 && (
+          <p className="text-center">No Similar Products found</p>
+        )}
         <div className="d-flex flex-wrap">
           {relatedProducts?.map((p) => (
             <div className="card" style={similarProductCardStyle} key={p._id}>
@@ -109,12 +125,16 @@ const ProductDetails = () => {
                 >
                   More Details
                 </button>
-                <button
-                  style={productButtonStyle}
-                 
-                >
-                  ADD TO CART
-                </button>
+                <button style={productButtonStyle}
+                onClick={() => {
+                  setCart((prev) => [...prev, p]);
+                  localStorage.setItem(
+                    "cart",
+                    JSON.stringify([...cart, p])
+                  );
+                }}
+                
+                >ADD TO CART</button>
               </div>
             </div>
           ))}
